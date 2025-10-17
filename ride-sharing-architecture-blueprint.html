@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ride‑Sharing Cloud Architecture Blueprint</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            blueprint: '#0b1020',
+            neonPink: '#ff2da6',
+            neonCyan: '#29f0ff',
+            neonPurple: '#9b5cff',
+            ink: '#0a0f1e',
+          },
+          fontFamily: {
+            sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','Ubuntu','Noto Sans','Cantarell','Helvetica Neue','Arial','sans-serif'],
+            heading: ['Orbitron','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto','Ubuntu','Noto Sans','Cantarell','Helvetica Neue','Arial','sans-serif'],
+          },
+          dropShadow: {
+            neon: ['0 0 8px rgba(255,45,166,0.75)', '0 0 16px rgba(41,240,255,0.6)']
+          },
+          boxShadow: {
+            glow: '0 0 0 1px rgba(255,255,255,0.08), 0 0 30px rgba(155,92,255,0.12)'
+          },
+          backgroundImage: {
+            'radial-fade': 'radial-gradient(1200px 600px at 50% -10%, rgba(167,139,250,0.18), transparent 60%), radial-gradient(800px 400px at 80% 120%, rgba(41,240,255,0.12), transparent 60%)'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-blueprint text-slate-200 font-sans antialiased">
+  <div class="relative min-h-screen overflow-hidden">
+    <!-- Blueprint grid background (SVG, no custom CSS needed) -->
+    <svg class="absolute inset-0 -z-20 h-full w-full pointer-events-none opacity-60" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+          <path d="M32 0H0V32" fill="none" stroke="#1f2a44" stroke-width="1"/>
+        </pattern>
+        <pattern id="dots" width="8" height="8" patternUnits="userSpaceOnUse">
+          <circle cx="1" cy="1" r="0.6" fill="#2a3560"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grid)"/>
+      <rect width="100%" height="100%" fill="url(#dots)" opacity="0.5"/>
+    </svg>
+    <div class="absolute inset-0 -z-10 bg-radial-fade"></div>
+    <div class="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-ink/30 to-ink/80"></div>
+
+    <!-- Header -->
+    <header class="relative">
+      <div class="mx-auto max-w-7xl px-6 pt-10 pb-4">
+        <div class="flex items-center justify-between">
+          <h1 class="text-3xl md:text-5xl font-heading tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-neonPink via-neonPurple to-neonCyan drop-shadow-neon">
+            Ride‑Sharing Cloud Architecture Blueprint
+          </h1>
+          <span class="hidden md:inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] font-semibold text-slate-300/70">
+            <span class="h-2 w-2 rounded-full bg-neonPink shadow-[0_0_12px_2px_rgba(255,45,166,0.8)]"></span>
+            v1.0
+          </span>
+        </div>
+        <p class="mt-3 md:mt-4 text-slate-300/80 max-w-3xl">
+          End‑to‑end data and compute flow powering request matching, dispatch, real‑time tracking, and payments at scale.
+        </p>
+      </div>
+    </header>
+
+    <!-- Main content grid -->
+    <main class="relative mx-auto max-w-7xl px-6 pb-16">
+      <div class="grid grid-cols-12 gap-6 md:gap-8">
+        <!-- Left column panels -->
+        <section class="col-span-12 lg:col-span-3 space-y-6">
+          <!-- Scalable Compute -->
+          <article class="relative rounded-xl border border-white/10 bg-white/5 p-4 md:p-5 shadow-glow">
+            <div class="absolute -top-1 -left-1 h-10 w-10 bg-gradient-to-br from-neonPink/80 to-neonPurple/80 blur-xl opacity-30 rounded-full"></div>
+            <div class="flex items-center gap-3">
+              <svg class="h-5 w-5 text-neonCyan" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 7h16M4 12h16M4 17h16" />
+              </svg>
+              <h2 class="font-heading text-sm tracking-widest text-slate-200 uppercase">Scalable Compute</h2>
+            </div>
+            <ul class="mt-3 space-y-2 text-sm leading-relaxed">
+              <li><span class="text-neonPink">•</span> Stateless microservices on containers/serverless.</li>
+              <li><span class="text-neonPink">•</span> Auto‑scaling based on QPS and tail latency.</li>
+              <li><span class="text-neonPink">•</span> Service mesh for mTLS, retries, circuit breaking.</li>
+              <li><span class="text-neonPink">•</span> Chaos testing and SLO‑driven capacity.</li>
+            </ul>
+            <div class="mt-3 flex flex-wrap gap-2 text-[10px] uppercase tracking-wider">
+              <span class="rounded border border-neonCyan/30 bg-neonCyan/10 px-2 py-1 text-neonCyan">Kubernetes</span>
+              <span class="rounded border border-neonPurple/30 bg-neonPurple/10 px-2 py-1 text-neonPurple">Serverless</span>
+              <span class="rounded border border-neonPink/30 bg-neonPink/10 px-2 py-1 text-neonPink">Envoy/Istio</span>
+            </div>
+          </article>
+
+          <!-- Geospatial Databases -->
+          <article class="relative rounded-xl border border-white/10 bg-white/5 p-4 md:p-5 shadow-glow">
+            <div class="absolute -bottom-1 -right-1 h-10 w-10 bg-gradient-to-br from-neonCyan/80 to-neonPurple/80 blur-xl opacity-30 rounded-full"></div>
+            <div class="flex items-center gap-3">
+              <svg class="h-5 w-5 text-neonPurple" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M12 2l7 4v6c0 5-7 10-7 10S5 17 5 12V6l7-4z"/>
+                <circle cx="12" cy="10" r="2"/>
+              </svg>
+              <h2 class="font-heading text-sm tracking-widest text-slate-200 uppercase">Geospatial Databases</h2>
+            </div>
+            <ul class="mt-3 space-y-2 text-sm leading-relaxed">
+              <li><span class="text-neonPink">•</span> H3/S2 indexing for nearby drivers and ETA.</li>
+              <li><span class="text-neonPink">•</span> Geofencing, map matching, routing graphs.</li>
+              <li><span class="text-neonPink">•</span> Time‑partitioned stores for trip history.</li>
+              <li><span class="text-neonPink">•</span> Read‑optimized caches at edge POPs.</li>
+            </ul>
+            <div class="mt-3 flex flex-wrap gap-2 text-[10px] uppercase tracking-wider">
+              <span class="rounded border border-neonCyan/30 bg-neonCyan/10 px-2 py-1 text-neonCyan">PostGIS</span>
+              <span class="rounded border border-neonPurple/30 bg-neonPurple/10 px-2 py-1 text-neonPurple">Citus</span>
+              <span class="rounded border border-neonPink/30 bg-neonPink/10 px-2 py-1 text-neonPink">Redis Geo</span>
+            </div>
+          </article>
+        </section>
+
+        <!-- Center flowchart -->
+        <section class="col-span-12 lg:col-span-6">
+          <div class="relative rounded-2xl border border-white/10 bg-white/[0.04] p-5 md:p-8 shadow-glow">
+            <div class="absolute inset-0 rounded-2xl pointer-events-none ring-1 ring-white/10"></div>
+
+            <div class="flex items-center justify-center gap-2">
+              <span class="h-2 w-2 rounded-full bg-neonPink shadow-[0_0_18px_3px_rgba(255,45,166,0.7)]"></span>
+              <h2 class="font-heading text-xs md:text-sm tracking-[0.5em] text-slate-300 uppercase">Ride Request Flow</h2>
+              <span class="h-2 w-2 rounded-full bg-neonCyan shadow-[0_0_18px_3px_rgba(41,240,255,0.7)]"></span>
+            </div>
+
+            <!-- Desktop / tablet horizontal flow -->
+            <div class="mt-6 hidden md:flex items-center justify-between">
+              <!-- Request -->
+              <div class="group relative flex w-32 flex-col items-center">
+                <div class="w-28 rounded-xl border border-neonPink/60 bg-blueprint/60 p-3 text-center shadow-[0_0_24px_rgba(255,45,166,0.25)] hover:shadow-[0_0_30px_rgba(255,45,166,0.45)] transition">
+                  <div class="font-heading text-sm text-neonPink">Request</div>
+                  <div class="mt-1 text-[11px] text-slate-300/80">App → API Gateway</div>
+                </div>
+              </div>
+              <div class="w-16 h-1 bg-gradient-to-r from-neonPink/60 to-neonPurple/70"></div>
+
+              <!-- Match -->
+              <div class="group relative flex w-32 flex-col items-center">
+                <div class="w-28 rounded-xl border border-neonPurple/60 bg-blueprint/60 p-3 text-center shadow-[0_0_24px_rgba(155,92,255,0.25)] hover:shadow-[0_0_30px_rgba(155,92,255,0.45)] transition">
+                  <div class="font-heading text-sm text-neonPurple">Match</div>
+                  <div class="mt-1 text-[11px] text-slate-300/80">Search Nearby Drivers</div>
+                </div>
+              </div>
+              <div class="w-16 h-1 bg-gradient-to-r from-neonPurple/70 to-neonCyan/70"></div>
+
+              <!-- Dispatch -->
+              <div class="group relative flex w-32 flex-col items-center">
+                <div class="w-28 rounded-xl border border-neonCyan/60 bg-blueprint/60 p-3 text-center shadow-[0_0_24px_rgba(41,240,255,0.25)] hover:shadow-[0_0_30px_rgba(41,240,255,0.45)] transition">
+                  <div class="font-heading text-sm text-neonCyan">Dispatch</div>
+                  <div class="mt-1 text-[11px] text-slate-300/80">Notify Driver</div>
+                </div>
+              </div>
+              <div class="w-16 h-1 bg-gradient-to-r from-neonCyan/70 to-neonPurple/70"></div>
+
+              <!-- Track -->
+              <div class="group relative flex w-32 flex-col items-center">
+                <div class="w-28 rounded-xl border border-neonPurple/60 bg-blueprint/60 p-3 text-center shadow-[0_0_24px_rgba(155,92,255,0.25)] hover:shadow-[0_0_30px_rgba(155,92,255,0.45)] transition">
+                  <div class="font-heading text-sm text-neonPurple">Track</div>
+                  <div class="mt-1 text-[11px] text-slate-300/80">Live Location</div>
+                </div>
+              </div>
+              <div class="w-16 h-1 bg-gradient-to-r from-neonPurple/70 to-neonPink/70"></div>
+
+              <!-- Payment -->
+              <div class="group relative flex w-32 flex-col items-center">
+                <div class="w-28 rounded-xl border border-neonPink/60 bg-blueprint/60 p-3 text-center shadow-[0_0_24px_rgba(255,45,166,0.25)] hover:shadow-[0_0_30px_rgba(255,45,166,0.45)] transition">
+                  <div class="font-heading text-sm text-neonPink">Payment</div>
+                  <div class="mt-1 text-[11px] text-slate-300/80">Tokenized Checkout</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mobile / stacked flow -->
+            <div class="mt-4 md:hidden space-y-4">
+              <div class="flex items-center gap-3">
+                <div class="h-10 w-10 rounded-full border border-neonPink/60 bg-blueprint/60 grid place-items-center text-[10px] font-heading text-neonPink">1</div>
+                <div class="flex-1">
+                  <div class="font-heading text-sm text-slate-200">Request</div>
+                  <div class="text-xs text-slate-400">App → API Gateway</div>
+                </div>
+              </div>
+              <div class="h-6 w-1 mx-4 bg-gradient-to-b from-neonPink/60 to-neonPurple/60"></div>
+
+              <div class="flex items-center gap-3">
+                <div class="h-10 w-10 rounded-full border border-neonPurple/60 bg-blueprint/60 grid place-items-center text-[10px] font-heading text-neonPurple">2</div>
+                <div class="flex-1">
+                  <div class="font-heading text-sm text-slate-200">Match</div>
+                  <div class="text-xs text-slate-400">Search Nearby Drivers</div>
+                </div>
+              </div>
+              <div class="h-6 w-1 mx-4 bg-gradient-to-b from-neonPurple/60 to-neonCyan/60"></div>
+
+              <div class="flex items-center gap-3">
+                <div class="h-10 w-10 rounded-full border border-neonCyan/60 bg-blueprint/60 grid place-items-center text-[10px] font-heading text-neonCyan">3</div>
+                <div class="flex-1">
+                  <div class="font-heading text-sm text-slate-200">Dispatch</div>
+                  <div class="text-xs text-slate-400">Notify Driver</div>
+                </div>
+              </div>
+              <div class="h-6 w-1 mx-4 bg-gradient-to-b from-neonCyan/60 to-neonPurple/60"></div>
+
+              <div class="flex items-center gap-3">
+                <div class="h-10 w-10 rounded-full border border-neonPurple/60 bg-blueprint/60 grid place-items-center text-[10px] font-heading text-neonPurple">4</div>
+                <div class="flex-1">
+                  <div class="font-heading text-sm text-slate-200">Track</div>
+                  <div class="text-xs text-slate-400">Live Location</div>
+                </div>
+              </div>
+              <div class="h-6 w-1 mx-4 bg-gradient-to-b from-neonPurple/60 to-neonPink/60"></div>
+
+              <div class="flex items-center gap-3">
+                <div class="h-10 w-10 rounded-full border border-neonPink/60 bg-blueprint/60 grid place-items-center text-[10px] font-heading text-neonPink">5</div>
+                <div class="flex-1">
+                  <div class="font-heading text-sm text-slate-200">Payment</div>
+                  <div class="text-xs text-slate-400">Tokenized Checkout</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Flow annotations -->
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="rounded-lg border border-white/10 bg-blueprint/40 p-3">
+                <div class="text-[11px] font-heading tracking-widest text-neonPink uppercase">Ingestion</div>
+                <div class="mt-1 text-xs text-slate-300/80">API Gateway → Rate Limit → AuthZ → Observability</div>
+              </div>
+              <div class="rounded-lg border border-white/10 bg-blueprint/40 p-3">
+                <div class="text-[11px] font-heading tracking-widest text-neonPurple uppercase">Real‑time</div>
+                <div class="mt-1 text-xs text-slate-300/80">Streams, CQRS, caches for p95 under 150ms</div>
+              </div>
+              <div class="rounded-lg border border-white/10 bg-blueprint/40 p-3">
+                <div class="text-[11px] font-heading tracking-widest text-neonCyan uppercase">Resilience</div>
+                <div class="mt-1 text-xs text-slate-300/80">Multi‑AZ, fallback flows, idempotent ops</div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Right column panels -->
+        <section class="col-span-12 lg:col-span-3 space-y-6">
+          <!-- Data Streaming -->
+          <article class="relative rounded-xl border border-white/10 bg-white/5 p-4 md:p-5 shadow-glow">
+            <div class="absolute -top-1 -right-1 h-10 w-10 bg-gradient-to-br from-neonPurple/80 to-neonCyan/80 blur-xl opacity-30 rounded-full"></div>
+            <div class="flex items-center gap-3">
+              <svg class="h-5 w-5 text-neonCyan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M3 12h18M3 6h12M9 18h12"/>
+              </svg>
+              <h2 class="font-heading text-sm tracking-widest text-slate-200 uppercase">Data Streaming</h2>
+            </div>
+            <ul class="mt-3 space-y-2 text-sm leading-relaxed">
+              <li><span class="text-neonPink">•</span> Append‑only topics for events and telemetry.</li>
+              <li><span class="text-neonPink">•</span> Exactly‑once semantics for billing signals.</li>
+              <li><span class="text-neonPink">•</span> Stream processors for dynamic pricing.</li>
+              <li><span class="text-neonPink">•</span> CDC for materialized views.</li>
+            </ul>
+            <div class="mt-3 flex flex-wrap gap-2 text-[10px] uppercase tracking-wider">
+              <span class="rounded border border-neonCyan/30 bg-neonCyan/10 px-2 py-1 text-neonCyan">Kafka/Pulsar</span>
+              <span class="rounded border border-neonPurple/30 bg-neonPurple/10 px-2 py-1 text-neonPurple">Flink</span>
+              <span class="rounded border border-neonPink/30 bg-neonPink/10 px-2 py-1 text-neonPink">Debezium</span>
+            </div>
+          </article>
+
+          <!-- Machine Learning -->
+          <article class="relative rounded-xl border border-white/10 bg-white/5 p-4 md:p-5 shadow-glow">
+            <div class="absolute -bottom-1 -left-1 h-10 w-10 bg-gradient-to-br from-neonPink/80 to-neonCyan/80 blur-xl opacity-30 rounded-full"></div>
+            <div class="flex items-center gap-3">
+              <svg class="h-5 w-5 text-neonPink" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M12 3v18M3 12h18M7 7l10 10M17 7L7 17"/>
+              </svg>
+              <h2 class="font-heading text-sm tracking-widest text-slate-200 uppercase">Machine Learning</h2>
+            </div>
+            <ul class="mt-3 space-y-2 text-sm leading-relaxed">
+              <li><span class="text-neonPink">•</span> ETA, ETR, surge, fraud detection.</li>
+              <li><span class="text-neonPink">•</span> Feature store with offline/online parity.</li>
+              <li><span class="text-neonPink">•</span> Continuous training with drift monitors.</li>
+              <li><span class="text-neonPink">•</span> A/B gates via experimentation platform.</li>
+            </ul>
+            <div class="mt-3 flex flex-wrap gap-2 text-[10px] uppercase tracking-wider">
+              <span class="rounded border border-neonCyan/30 bg-neonCyan/10 px-2 py-1 text-neonCyan">XGBoost</span>
+              <span class="rounded border border-neonPurple/30 bg-neonPurple/10 px-2 py-1 text-neonPurple">PyTorch</span>
+              <span class="rounded border border-neonPink/30 bg-neonPink/10 px-2 py-1 text-neonPink">Feast</span>
+            </div>
+          </article>
+        </section>
+      </div>
+
+      <!-- Legend / Notes -->
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="rounded-xl border border-white/10 bg-white/[0.04] p-4">
+          <div class="font-heading text-xs tracking-widest text-slate-300 uppercase">Edge</div>
+          <p class="mt-2 text-xs text-slate-400">CDN/WAF, device attestation, coarse auth. Edge caches: price bands, promos, maps tiles.</p>
+        </div>
+        <div class="rounded-xl border border-white/10 bg-white/[0.04] p-4">
+          <div class="font-heading text-xs tracking-widest text-slate-300 uppercase">Core</div>
+          <p class="mt-2 text-xs text-slate-400">Gateway, orchestration, matching, dispatch, tracking, payments. Shared observability.</p>
+        </div>
+        <div class="rounded-xl border border-white/10 bg-white/[0.04] p-4">
+          <div class="font-heading text-xs tracking-widest text-slate-300 uppercase">Data</div>
+          <p class="mt-2 text-xs text-slate-400">Data lake, warehouse, serving layer, notebooks. Batch + streaming pipelines.</p>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="mx-auto max-w-7xl px-6 pb-10">
+      <div class="flex items-center justify-between text-[10px] text-slate-500">
+        <span>© 2025 Ride‑Sharing Architecture • Dark mode blueprint</span>
+        <span class="inline-flex items-center gap-2">
+          <span class="h-1.5 w-1.5 rounded-full bg-neonPink"></span>
+          <span class="h-1.5 w-1.5 rounded-full bg-neonPurple"></span>
+          <span class="h-1.5 w-1.5 rounded-full bg-neonCyan"></span>
+        </span>
+      </div>
+    </footer>
+
+  </div>
+</body>
+</html>
